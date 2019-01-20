@@ -27,7 +27,7 @@ class ResourcesControllerTest {
 		Response response = target.path("rest").path("resources").request().accept(MediaType.APPLICATION_JSON)
 				.get(Response.class);
 
-		assertEquals(response.getStatus(),200);
+		assertEquals(response.getStatus(), 200);
 	}
 
 	private static URI getBaseURI() {

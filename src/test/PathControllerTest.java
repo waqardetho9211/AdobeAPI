@@ -12,17 +12,12 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
-
-
-
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.jupiter.api.Test;
 
 import main.business.Resource;
 
-class PathControllerTest {
+class PathControllerTest {  
 
 	@Test
 	void shouldShowNoContentResponse() {
@@ -55,7 +50,6 @@ class PathControllerTest {
 			assertEquals(resource.getPath(), aRandomResource.getPath());			
 	    }
 	}
-	
 	
 	private static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/AdobeAPI/").build();

@@ -16,7 +16,7 @@ public class ResourceDAO {
 		resources.add(resource1);
 		resources.add(resource2);
 		resources.add(resource3);
-		resources.add(resource4);		
+		resources.add(resource4);
 	}
 
 	public List<Resource> getModel() {

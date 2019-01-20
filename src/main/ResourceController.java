@@ -13,17 +13,17 @@ import main.persistence.ResourceDAO;
 import java.util.List;
 
 @Path("/resource")
-public class ResourceController {		
-	@GET	
+public class ResourceController {
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Resource getResource(@QueryParam("name") final String name) {
 		ResourceDAO dao = new ResourceDAO();
 		List<Resource> resources = dao.getModel();
 		for (Resource resource : resources) {
-	        if (resource.getName().equalsIgnoreCase(name)) {
-	            return resource;
-	        }
-	    }
+			if (resource.getName().equalsIgnoreCase(name)) {
+				return resource;
+			}
+		}
 		return new Resource(name, ResourceTypes.Unknown, "unknown", "unknown");
-	}	
+	}
 }

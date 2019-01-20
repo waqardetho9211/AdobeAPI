@@ -1,7 +1,5 @@
 package main.business;
 
 public enum ResourceTypes {
-	    File,
-	    Directory,
-	    Unknown;
+	File, Directory, Unknown;
 }
