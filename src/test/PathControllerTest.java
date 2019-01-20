@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import main.business.Resource;
 
-class ResourceTest {
+class PathControllerTest {
 
 	@Test
 	void shouldShowOKResponse() {
@@ -28,10 +28,7 @@ class ResourceTest {
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(getBaseURI());
 
-		Resource aRandomResource = new Resource();
-		aRandomResource.setName("content.pdf");
-
-		final Response response = target.path("rest/resource").queryParam("name", "random").request()
+		final Response response = target.path("rest/path").queryParam("path", "random").request()
 				.accept(MediaType.APPLICATION_JSON).get(Response.class);
 
 		assertEquals(response.getStatus(), 200);
@@ -45,15 +42,18 @@ class ResourceTest {
 		WebTarget target = client.target(getBaseURI());
 
 		Resource aRandomResource = new Resource();
-		aRandomResource.setName("someFile.pdf");
-		Response response = target.path("rest/resource").queryParam("name", aRandomResource.getName())
+		aRandomResource.setPath("main");
+		Response response = target.path("rest/path").queryParam("path", aRandomResource.getPath())
 				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
 
 		String output = response.readEntity(String.class);
+		
 		assertThat(output, containsString("name"));
 		assertThat(output, containsString("type"));
 		assertThat(output, containsString("path"));
 		assertThat(output, containsString("location"));
+		
+		assertThat(output, containsString("main"));			
 	}
 
 	private static URI getBaseURI() {

@@ -14,7 +14,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.jupiter.api.Test;
 
-class ResourcesTest {
+class ResourcesControllerTest {
 
 	@Test
 	void shouldShowOKResponse() {

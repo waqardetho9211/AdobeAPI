@@ -16,7 +16,7 @@ import java.util.List;
 public class ResourceController {		
 	@GET	
 	@Produces(MediaType.APPLICATION_JSON)
-	public Resource isAliveJSON(@QueryParam("name") final String name) {
+	public Resource getResource(@QueryParam("name") final String name) {
 		ResourceDAO dao = new ResourceDAO();
 		List<Resource> resources = dao.getModel();
 		for (Resource resource : resources) {

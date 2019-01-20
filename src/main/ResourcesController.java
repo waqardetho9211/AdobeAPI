@@ -15,7 +15,7 @@ public class ResourcesController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Resource> isAliveJSON() {
+	public List<Resource> getResources() {
 		ResourceDAO dao = new ResourceDAO();
 		List<Resource> resources = dao.getModel();
 		return resources;
