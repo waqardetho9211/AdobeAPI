@@ -3,15 +3,18 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
+
 
 
 import org.glassfish.jersey.client.ClientConfig;
@@ -22,7 +25,7 @@ import main.business.Resource;
 class PathControllerTest {
 
 	@Test
-	void shouldShowOKResponse() {
+	void shouldShowNoContentResponse() {
 
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
@@ -31,11 +34,11 @@ class PathControllerTest {
 		final Response response = target.path("rest/path").queryParam("path", "random").request()
 				.accept(MediaType.APPLICATION_JSON).get(Response.class);
 
-		assertEquals(response.getStatus(), 200);
+		assertEquals(response.getStatus(), 204);
 	}
 
 	@Test
-	void shouldReturnResource() {
+	void shouldReturnResources() {
 
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
@@ -46,16 +49,14 @@ class PathControllerTest {
 		Response response = target.path("rest/path").queryParam("path", aRandomResource.getPath())
 				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
 
-		String output = response.readEntity(String.class);
+		List<Resource> resources = response.readEntity(new GenericType<List<Resource>>(){});
 		
-		assertThat(output, containsString("name"));
-		assertThat(output, containsString("type"));
-		assertThat(output, containsString("path"));
-		assertThat(output, containsString("location"));
-		
-		assertThat(output, containsString("main"));			
+		for (Resource resource : resources) {			
+			assertEquals(resource.getPath(), aRandomResource.getPath());			
+	    }
 	}
-
+	
+	
 	private static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/AdobeAPI/").build();
 	}
