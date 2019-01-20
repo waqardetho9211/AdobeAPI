@@ -10,24 +10,50 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
+
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.jupiter.api.Test;
+
+import main.business.Resource;
 
 class ResourceTest {
 
 	@Test
 	void shouldShowOKResponse() {
+
 		ClientConfig config = new ClientConfig();
-
 		Client client = ClientBuilder.newClient(config);
-
 		WebTarget target = client.target(getBaseURI());
 
-		Response response = target.path("rest").path("resource").request().accept(MediaType.APPLICATION_JSON)
-				.get(Response.class);
+		Resource aRandomResource = new Resource();
+		aRandomResource.setName("content.pdf");
 
-		assertEquals(response.getStatus(),200);
+		final Response response = target.path("rest/resource").queryParam("name", "random").request()
+				.accept(MediaType.APPLICATION_JSON).get(Response.class);
+
+		assertEquals(response.getStatus(), 200);
+	}
+
+	@Test
+	void shouldReturnResource() {
+
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+
+		Resource aRandomResource = new Resource();
+		aRandomResource.setName("someFile.pdf");
+		Response response = target.path("rest/resource").queryParam("name", aRandomResource.getName())
+				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+
+		String output = response.readEntity(String.class);
+		assertThat(output, containsString("name"));
+		assertThat(output, containsString("type"));
+		assertThat(output, containsString("path"));
+		assertThat(output, containsString("location"));
 	}
 
 	private static URI getBaseURI() {

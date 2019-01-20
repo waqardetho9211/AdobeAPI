@@ -14,7 +14,7 @@ import java.util.List;
 
 @Path("/resource")
 public class ResourceController {		
-	@GET
+	@GET	
 	@Produces(MediaType.APPLICATION_JSON)
 	public Resource isAliveJSON(@QueryParam("name") final String name) {
 		ResourceDAO dao = new ResourceDAO();
@@ -24,6 +24,6 @@ public class ResourceController {
 	            return resource;
 	        }
 	    }
-		return new Resource(name, ResourceTypes.Unknown);
+		return new Resource(name, ResourceTypes.Unknown, "unknown", "unknown");
 	}	
 }
