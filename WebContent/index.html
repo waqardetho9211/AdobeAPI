@@ -4,10 +4,17 @@
 <meta charset="ISO-8859-1">
 <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<title>Insert title here</title>
+<title>Comment Section</title>
 </head>
 <body>
-<h1 class="mt-5">Welcome to document management system.</h1>
+<h1 class="mt-5">Welcome to comment section.</h1>
+
+	<form action="../AdobeAPI/rest/comment" method="POST">
+		<label for="name">Your Name</label> <input name="name" /> <br /> 		
+		Description:
+		<TEXTAREA name="comment" COLS=50 ROWS=2></TEXTAREA> <br /> 
+		<input type="submit" value="Submit" />
+	</form>
 
 </body>
 </html>
