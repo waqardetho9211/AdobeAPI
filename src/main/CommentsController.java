@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import main.business.Comment;
-import main.persistence.CommentsDBO;
+import main.persistence.CommentsDBA;
 
 @Path("/comment")
 public class CommentsController {
@@ -28,7 +28,7 @@ public class CommentsController {
             @Context HttpServletResponse servletResponse) throws IOException {
 		
 		Comment commentBO = new Comment(name, comment);
-		CommentsDBO commentsDBO = new CommentsDBO();
+		CommentsDBA commentsDBO = new CommentsDBA();
 		List<Comment> comments = commentsDBO.insertComment(commentBO);
 		
 		GenericEntity<List<Comment>> generic = new GenericEntity<List<Comment>>(comments){};

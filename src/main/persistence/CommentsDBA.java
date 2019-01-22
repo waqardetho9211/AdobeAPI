@@ -1,7 +1,5 @@
 package main.persistence;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import org.bson.Document;
@@ -14,11 +12,11 @@ import com.mongodb.client.MongoDatabase;
 
 import main.business.Comment;
 
-public class CommentsDBO {
+public class CommentsDBA {
 	MongoCollection<Document> collection;
 	private static Gson gson = new Gson();
 	
-	public CommentsDBO() {
+	public CommentsDBA() {
 		String uri = "mongodb+srv://admin:admin@cluster0-1ng4z.mongodb.net/admin";
 		MongoClientURI clientURI = new MongoClientURI(uri);
 		MongoClient mongoClient = new MongoClient(clientURI);
