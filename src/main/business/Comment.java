@@ -1,12 +1,23 @@
 package main.business;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Comment {
+	
 	private String user;
 	private String comment;
+	private String timeStamp;
+	
+	public Comment() {
+		
+	}
+	
 	public Comment(String user, String comment) {
 		super();
 		this.user = user;
 		this.comment = comment;
+		this.timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 	}
 	public String getUser() {
 		return user;
@@ -21,6 +32,12 @@ public class Comment {
 	public void setComment(String comment) {
 		this.comment = comment;
 	} 
+	public String getTimeStamp() {
+		return timeStamp;
+	}
+	public void setTimeStamp(String timeStamp) {
+		this.timeStamp = timeStamp;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -51,4 +68,5 @@ public class Comment {
 			return false;
 		return true;
 	}
+	
 }
