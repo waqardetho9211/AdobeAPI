@@ -1,14 +1,17 @@
 package main.business;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class Comment {
+public class Comment implements Comparable<Comment>{
 	
 	private String user;
 	private String comment;
-	private String timeStamp;
+	private LocalDateTime timeStamp;
 	
+	/*
+	 * Constructor created to support mongo driver to convert from/to pojo to mongo document
+	 */
 	public Comment() {
 		
 	}
@@ -17,7 +20,7 @@ public class Comment {
 		super();
 		this.user = user;
 		this.comment = comment;
-		this.timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		this.timeStamp = LocalDateTime.now();
 	}
 	public String getUser() {
 		return user;
@@ -32,10 +35,10 @@ public class Comment {
 	public void setComment(String comment) {
 		this.comment = comment;
 	} 
-	public String getTimeStamp() {
+	public LocalDateTime getTimeStamp() {
 		return timeStamp;
 	}
-	public void setTimeStamp(String timeStamp) {
+	public void setTimeStamp(LocalDateTime timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 	
@@ -67,6 +70,11 @@ public class Comment {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Comment comment) {
+		return getTimeStamp().compareTo(comment.getTimeStamp());
 	}
 	
 }

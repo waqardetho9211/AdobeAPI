@@ -1,6 +1,9 @@
 package main;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.io.FileUtils;
+
 import main.business.Comment;
 import main.persistence.CommentsDBA;
 
@@ -28,10 +34,17 @@ public class CommentsController {
 		CommentsDBA commentsDBO = new CommentsDBA();
 		commentsDBO.insertComment(commentBO);
 		
-		List<Comment> comments = commentsDBO.getAllComments(); 
+		List<Comment> comments = commentsDBO.getAllComments(); 		
+		Collections.reverse(comments);
+		for(Comment commentsss: comments) {
+			System.out.println(commentsss.getTimeStamp());
+		}
+		URL url = getClass().getResource("./resources/comments.html");
+		File file = new File(url.getPath());
+		String htmlString = FileUtils.readFileToString(file);
 		
-		return "<html> " + "<title>" + "Comments Submitted" + "</title>"
-        + "<body><h1>" + "Hello Jersey" + "</body></h1>" + "</html> ";
+		
+		return htmlString;
 	}
 
 }
