@@ -18,11 +18,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
 
-import main.business.Comment;
-import main.persistence.CommentsDBA;
+import main.business.comments.Comment;
+import main.business.comments.CommentsDAO;
+import main.persistence.CommentsDBO;
 
 @Path("/comment")
-public class CommentsController {
+public class CommentsController {  
 
 	private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -33,7 +34,7 @@ public class CommentsController {
 			@Context HttpServletResponse servletResponse) throws IOException {
 
 		Comment commentBO = new Comment(name, comment);
-		CommentsDBA commentsDBO = new CommentsDBA();
+		CommentsDAO commentsDBO = new CommentsDBO(); 
 		commentsDBO.insertComment(commentBO);
 
 		List<Comment> comments = commentsDBO.getAllComments();

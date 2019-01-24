@@ -8,8 +8,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
-import main.business.Resource;
-import main.persistence.ResourceDAO;
+import main.business.resources.Resource;
+import main.business.resources.ResourceDAO;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

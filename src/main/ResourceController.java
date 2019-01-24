@@ -6,9 +6,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import main.business.Resource;
-import main.business.ResourceTypes;
-import main.persistence.ResourceDAO;
+import main.business.resources.Resource;
+import main.business.resources.ResourceDAO;
+import main.business.resources.ResourceTypes;
 
 import java.util.List;
 

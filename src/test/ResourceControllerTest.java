@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.jupiter.api.Test;
 
-import main.business.Resource;
+import main.business.resources.Resource;
 
 class ResourceControllerTest {
 
