@@ -1,4 +1,4 @@
-package main.business;
+package main.business.comments;
 
 import java.time.LocalDateTime;
 

@@ -1,9 +1,7 @@
-package main.persistence;
+package main.business.resources;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.business.Resource;
-import main.business.ResourceTypes;
 
 public class ResourceDAO {
 	List<Resource> resources = new ArrayList<Resource>();
@@ -21,6 +19,6 @@ public class ResourceDAO {
 
 	public List<Resource> getModel() {
 		return resources;
-	}
+	} 
 
 }

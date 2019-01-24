@@ -13,21 +13,22 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import main.business.comments.Comment;
+import main.business.comments.CommentsDAO;
+
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
-import main.business.Comment;
-
-public class CommentsDBA {
+public class CommentsDBO implements CommentsDAO{
 	MongoCollection<Comment> collection;
 	String uri = "mongodb+srv://admin:`dxefRRvbr36.3#UBRK\\tNh@cluster0-1ng4z.mongodb.net/admin";
 
 	MongoClientURI clientURI = new MongoClientURI(uri);
 	//MongoClient mongoClient;
 	MongoClient mongoClient = new MongoClient(clientURI);
-	MongoDatabase mongoDatabase = mongoClient.getDatabase("AdobeAPI");
+	MongoDatabase mongoDatabase = mongoClient.getDatabase("AdobeAPI"); 
 
-	public CommentsDBA() {
+	public CommentsDBO() {
 
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
@@ -40,12 +41,12 @@ public class CommentsDBA {
 		System.out.println("Database Connected");
 
 	}
-
+	@Override
 	public void insertComment(Comment commentBO) {
 		collection.insertOne(new Comment(commentBO.getUser(), commentBO.getComment()));		
-
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public List<Comment> getAllComments() {
 		List<Comment> result = new ArrayList<Comment>();
@@ -55,7 +56,6 @@ public class CommentsDBA {
 		    	result.add(comment);
 		    }
 		};
-
 		collection.find().forEach(printBlock);
 		return result;
 	}
