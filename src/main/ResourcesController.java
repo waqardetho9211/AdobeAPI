@@ -30,7 +30,7 @@ public class ResourcesController {
         String hex = DatatypeConverter.printHexBinary(hash);
         EntityTag etag = new EntityTag(hex);
         
-        return Response.ok(resources).tag(etag).build();
+        return Response.ok(resources).tag(etag).build(); 
 	}
 
 }
