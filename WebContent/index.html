@@ -1,18 +1,22 @@
+<!-- html template copied from https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_list_group&stacked=h -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<title>Comment Section</title>
+  <title>Wall Post Anything here</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1 class="mt-5">Welcome to comment section.</h1>
+<body>
+<h2>Welcome to comment section. Post on the wall</h1>
 
 	<form action="../AdobeAPI/rest/comment" method="POST">
-		<label for="name">Your Name</label> <input name="name" /> <br /> 		
-		Description:
-		<TEXTAREA name="comment" COLS=50 ROWS=2></TEXTAREA> <br /> 
+		<label for="name">Your Name:</label> <input class="form-control" name="name" /> <br /> 		
+		<label for="comment"> Comment:</label>
+		<TEXTAREA class="form-control" name="comment" COLS=50 ROWS=2></TEXTAREA> <br /> 
 		<input type="submit" value="Submit" />
 	</form>
 

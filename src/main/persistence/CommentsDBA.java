@@ -3,11 +3,9 @@ package main.persistence;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
-import com.google.gson.Gson;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;

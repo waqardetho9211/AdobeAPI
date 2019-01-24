@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,28 +23,41 @@ import main.persistence.CommentsDBA;
 
 @Path("/comment")
 public class CommentsController {
-	
+
+	private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 	@POST
-    @Produces(MediaType.TEXT_HTML)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String getResource(@FormParam("name") String name,
-            @FormParam("comment") String comment,            
-            @Context HttpServletResponse servletResponse) throws IOException {
-		
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String getResource(@FormParam("name") String name, @FormParam("comment") String comment,
+			@Context HttpServletResponse servletResponse) throws IOException {
+
 		Comment commentBO = new Comment(name, comment);
 		CommentsDBA commentsDBO = new CommentsDBA();
 		commentsDBO.insertComment(commentBO);
-		
-		List<Comment> comments = commentsDBO.getAllComments(); 		
-		Collections.reverse(comments);
-		for(Comment commentsss: comments) {
-			System.out.println(commentsss.getTimeStamp());
-		}
+
+		List<Comment> comments = commentsDBO.getAllComments();
+		Collections.sort(comments);
+
+		String htmlString = createHtmlString(comments);
+		return htmlString;
+	}
+
+	private String createHtmlString(List<Comment> comments) throws IOException {
 		URL url = getClass().getResource("./resources/comments.html");
 		File file = new File(url.getPath());
 		String htmlString = FileUtils.readFileToString(file);
-		
-		
+
+		StringBuilder listBuilder = new StringBuilder();
+
+		for (Comment comment : comments) {
+			listBuilder.append(
+					"<li class='list-group-item'> <b>" + comment.getUser() + "</b> says: <i>" + comment.getComment()
+							+ "</i> <p><small>" + comment.getTimeStamp().format(dateTimeFormat) + "</small></p></li>");
+			System.out.println(comment.getTimeStamp());
+		}
+		htmlString = htmlString.replace("$targetList", listBuilder);
+
 		return htmlString;
 	}
 
