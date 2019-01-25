@@ -15,7 +15,6 @@ import javax.ws.rs.core.UriBuilder;
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.After;
 import org.junit.jupiter.api.Test;
-
 import static org.hamcrest.CoreMatchers.containsString;
 
 
@@ -23,7 +22,7 @@ class CommentsControllerTest {
 
 	@After
 	void deleteAllTheRecordsCreated() {
-		//ToDo Write this method
+		//ToDo Write this method delete all records created during the test
 	}
 	
 	@Test
@@ -63,7 +62,69 @@ class CommentsControllerTest {
 		assertThat(htmlString, containsString(nameOfTestUser));
 		assertThat(htmlString, containsString(commentOfTestUser));
 
-	} 
+	}
+	@Test
+	void shouldGetComments() {
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+		
+		Response response = target.path("rest").path("comment").request()
+				.get(Response.class);
+
+		String htmlString = response.readEntity(String.class);
+		assertNotEquals( "", htmlString );
+
+	}
+	@Test
+	void shouldGetLastModifiedFromHTTPHeader() {
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+		
+		Response response = target.path("rest").path("comment").request()
+				.get(Response.class);
+		
+		String lastModified = response.getHeaderString("Last-Modified");
+		assertNotEquals(lastModified, "");
+
+	}
+	
+	@Test
+	void LastModifiedShoudBeTheSame() {
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+		
+		Response response1 = target.path("rest").path("comment").request()
+				.get(Response.class);
+		
+		Response response2 = target.path("rest").path("comment").request()
+				.get(Response.class);
+		
+		String lastModified1 = response1.getHeaderString("Last-Modified");
+		String lastModified2 = response2.getHeaderString("Last-Modified");
+		
+		assertEquals(lastModified1, lastModified2);
+	}
+	
+	@Test
+	void ShouldReturnResponseAsNotModified() {
+		
+		 // If-Modified-Since
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+		
+		Response response1 = target.path("rest").path("comment").request()
+				.get(Response.class);
+		
+		String lastModified1 = response1.getHeaderString("Last-Modified");
+		
+		Response response2 = target.path("rest").path("comment").request().header("if-modified-since",lastModified1)
+				.get(Response.class);
+		assertEquals(response2.getStatus(), 304);
+	}
 
 	private static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/AdobeAPI/").build();

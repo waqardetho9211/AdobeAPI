@@ -33,5 +33,5 @@ class ResourcesControllerTest {
 	private static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/AdobeAPI/").build();
 	}
-
+ 
 }
