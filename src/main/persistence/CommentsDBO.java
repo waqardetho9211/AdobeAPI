@@ -19,9 +19,6 @@ import com.mongodb.client.MongoDatabase;
 import main.business.comments.Comment;
 import main.business.comments.CommentsDAO;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
 public class CommentsDBO implements CommentsDAO{
 	private MongoCollection<Comment> collection;
 	private String uri = "mongodb+srv://admin:<password>@cluster0-1ng4z.mongodb.net/admin";
