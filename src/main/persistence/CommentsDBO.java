@@ -23,15 +23,10 @@ public class CommentsDBO implements CommentsDAO{
 	private MongoCollection<Comment> collection;
 	private String uri = "mongodb+srv://admin:<password>@cluster0-1ng4z.mongodb.net/admin";
 
-	private MongoClientURI clientURI = new MongoClientURI(uri);
-	private MongoClient mongoClient;
-	//MongoClient mongoClient = new MongoClient(clientURI);
-	private MongoDatabase mongoDatabase;
-
-	{
-		mongoDatabase = mongoClient.getDatabase("AdobeAPI");
-		System.out.println("Print Logs")
-	}
+	// ToDo Fix twice initialization of MongoClient
+	MongoClientURI clientURI = new MongoClientURI(uri); 
+	MongoClient mongoClient = new MongoClient(clientURI);
+	MongoDatabase mongoDatabase = mongoClient.getDatabase("AdobeAPI"); 
 
 	public CommentsDBO() {
 
