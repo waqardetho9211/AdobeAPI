@@ -3,8 +3,11 @@ package main.persistence;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -21,23 +24,25 @@ import main.business.comments.CommentsDAO;
 
 public class CommentsDBO implements CommentsDAO{
 	private MongoCollection<Comment> collection;
-	private String uri = "mongodb+srv://admin:<password>@cluster0-1ng4z.mongodb.net/admin";
 
 	// ToDo Fix twice initialization of MongoClient
-	MongoClientURI clientURI = new MongoClientURI(uri); 
+	Properties properties = getApplicationProperties();
+	private MongoClientURI clientURI = new MongoClientURI(properties.get("application.uri").toString());
+
 	MongoClient mongoClient = new MongoClient(clientURI);
-	MongoDatabase mongoDatabase = mongoClient.getDatabase("AdobeAPI"); 
+	MongoDatabase mongoDatabase = mongoClient.getDatabase(properties.get("application.db").toString()); 
 
 	public CommentsDBO() {
 
 		final CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-		mongoClient = new MongoClient(uri,
+		mongoClient = new MongoClient(properties.get("application.uri").toString(),
 				MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
 
 		mongoDatabase = mongoDatabase.withCodecRegistry(pojoCodecRegistry);
 		collection = mongoDatabase.getCollection("Comment", Comment.class);
 		
+		//ToDo print info logs
 		System.out.println("Database Connected");
 
 	}
@@ -58,6 +63,21 @@ public class CommentsDBO implements CommentsDAO{
 		};
 		collection.find().forEach(printBlock);
 		return result;
+	}
+	
+	private Properties getApplicationProperties() {
+		// Boilerplate code ToDo create a universal properties loader
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream input = classLoader.getResourceAsStream("./main/resources/conf/application.properties");
+		// ...
+		Properties properties = new Properties();
+		try {
+			properties.load(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+			// ToDo print logs
+		}
+		return properties;
 	}
 
 }

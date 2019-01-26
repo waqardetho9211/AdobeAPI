@@ -44,7 +44,7 @@ class PathControllerTest {
 		Response response = target.path("rest/path").queryParam("path", aRandomResource.getPath())
 				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
 
-		List<Resource> resources = response.readEntity(new GenericType<List<Resource>>(){});
+		List<Resource> resources = response.readEntity(new GenericType<List<Resource>>(){}); 
 		
 		for (Resource resource : resources) {			
 			assertEquals(resource.getPath(), aRandomResource.getPath());			
