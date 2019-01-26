@@ -81,7 +81,6 @@ public class CommentsController {
 			listBuilder.append(
 					"<li class='list-group-item'> <b>" + comment.getUser() + "</b> says: <i>" + comment.getComment()
 							+ "</i> <p><small>" + comment.getTimeStamp().format(dateTimeFormat) + "</small></p></li>");
-			System.out.println(comment.getTimeStamp());
 		}
 		htmlString = htmlString.replace("$targetList", listBuilder);
 
