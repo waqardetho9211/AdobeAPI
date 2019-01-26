@@ -26,11 +26,11 @@ public class CommentsDBO implements CommentsDAO{
 	private MongoCollection<Comment> collection;
 
 	// ToDo Fix twice initialization of MongoClient
-	Properties properties = getApplicationProperties();
+	private Properties properties = getApplicationProperties();
 	private MongoClientURI clientURI = new MongoClientURI(properties.get("application.uri").toString());
 
-	MongoClient mongoClient = new MongoClient(clientURI);
-	MongoDatabase mongoDatabase = mongoClient.getDatabase(properties.get("application.db").toString()); 
+	private MongoClient mongoClient = new MongoClient(clientURI);
+	private MongoDatabase mongoDatabase = mongoClient.getDatabase(properties.get("application.db").toString()); 
 
 	public CommentsDBO() {
 
@@ -55,13 +55,13 @@ public class CommentsDBO implements CommentsDAO{
 	@SuppressWarnings("deprecation")
 	public List<Comment> getAllComments() {
 		final List<Comment> result = new ArrayList<Comment>();
-		final Block<Comment> printBlock = new Block<Comment>() {
+		final Block<Comment> commentBlock = new Block<Comment>() {
 		    @Override
 		    public void apply(final Comment comment) {
 		    	result.add(comment);
 		    }
 		};
-		collection.find().forEach(printBlock);
+		collection.find().forEach(commentBlock);
 		return result;
 	}
 	
