@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 
 import main.business.resources.Resource;
-import main.business.resources.ResourceDAO;
+import main.persistence.ResourceDBO;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,8 +22,8 @@ public class ResourcesController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getResources() throws NoSuchAlgorithmException {
-		ResourceDAO dao = new ResourceDAO();
-		List<Resource> resources = dao.getModel();
+		ResourceDBO dao = new ResourceDBO();
+		List<Resource> resources = dao.getAllResources();
 		
 		MessageDigest digest = MessageDigest.getInstance("MD5");
         byte[] hash = digest.digest(resources.toString().getBytes(StandardCharsets.UTF_8));
