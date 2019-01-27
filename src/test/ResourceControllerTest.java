@@ -144,7 +144,7 @@ class ResourceControllerTest {
 	@Test
 	void ShouldReturnNotModifiedResponse() {
 		
-		 // If-Modified-Since
+		 // If-None-match test
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(getBaseURI());
@@ -161,6 +161,7 @@ class ResourceControllerTest {
 		Response response2 = target.path("rest/resource").queryParam("name", aRandomResource.getName()).request().header("ETag",eTag)
 				.get(Response.class);
 		assertEquals(response1.getStatus(), 200);
+		// ToDo not working fix this
 		assertEquals(response2.getStatus(), 304);
 	} 
 

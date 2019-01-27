@@ -9,6 +9,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -29,11 +30,11 @@ class PathControllerTest {
 		final Response response = target.path("rest/path").queryParam("path", "random").request()
 				.accept(MediaType.APPLICATION_JSON).get(Response.class);
 
-		assertEquals(response.getStatus(), 204);
+		assertEquals(response.getStatus(), 204); 
 	}
 
 	@Test
-	void shouldReturnResources() {
+	public void shouldReturnResources() {
 
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
@@ -49,6 +50,73 @@ class PathControllerTest {
 		for (Resource resource : resources) {			
 			assertEquals(resource.getPath(), aRandomResource.getPath());			
 	    }
+	}
+	
+	@Test
+	public void shouldReturnNotModifiedResponseAtAPath() {
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+
+		Resource aRandomResource = new Resource();
+		aRandomResource.setPath("main");
+		Response response = target.path("rest/path").queryParam("path", aRandomResource.getPath())
+				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+		
+		String eTag = response.getHeaderString(HttpHeaders.ETAG);
+
+		Response response2 = target.path("rest/resources").request().header(HttpHeaders.ETAG, eTag).get(Response.class);
+		// ToDo not working fix this
+		assertEquals(response2.getStatus(), 304);
+	}
+	
+	@Test
+	public void shouldReturnEntityTagInResponse() {
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+
+		Resource aRandomResource = new Resource();
+		aRandomResource.setPath("main");
+		Response response = target.path("rest/path").queryParam("path", aRandomResource.getPath())
+				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+		
+		String eTag = response.getHeaderString(HttpHeaders.ETAG);
+		assertNotNull(eTag); 
+	}
+	
+	@Test
+	public void shouldHaveSameETAGInDifferentRequestAsContentNotUpdated() {
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI());
+		Resource aRandomResource = new Resource();
+		aRandomResource.setPath("main");
+		
+		Response response1 = target.path("rest/path").queryParam("path", aRandomResource.getPath())
+				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+		Response response2 = target.path("rest/path").queryParam("path", aRandomResource.getPath())
+				.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+
+		String eTag1 = response1.getHeaderString(HttpHeaders.ETAG);
+		String eTag2 = response2.getHeaderString(HttpHeaders.ETAG);
+
+		assertEquals(eTag1, eTag2);
+	}
+	
+	@Test
+	public void shouldReturnResourcesAtAGivenPath() {
+		// ToDo implement this
+	}
+	
+	@Test
+	public void shouldReturnUpdatedResourcesAtAPath() {
+		// ToDo implement this
+	}
+	
+	@Test
+	public void checkHTTPCachingRequest() {
+		// ToDo implement this. 
 	}
 	
 	private static URI getBaseURI() {
