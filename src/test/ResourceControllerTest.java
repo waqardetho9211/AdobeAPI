@@ -58,7 +58,7 @@ class ResourceControllerTest {
 		final Response response = target.path("rest/resource").queryParam("name", resource.getName()).request()
 				.accept(MediaType.APPLICATION_JSON).get(Response.class);
 
-		assertEquals(response.getStatus(), 200);
+		assertEquals(response.getStatus(), 200); 
 	}
 
 	@Test
