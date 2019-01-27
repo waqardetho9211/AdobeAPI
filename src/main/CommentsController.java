@@ -29,7 +29,7 @@ import main.persistence.CommentsDBO;
 
 @Singleton
 @Path("/comment")
-public class CommentsController {  
+public class CommentsController {
 
 	private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	private Date lastModified = new Date();
@@ -39,18 +39,18 @@ public class CommentsController {
 	public Response getComments(@Context Request request) throws IOException {
 
 		ResponseBuilder builder = request.evaluatePreconditions(lastModified);
-        if (builder != null) {
-            return builder.build();
-        }
-		
-		CommentsDAO commentsDBO = new CommentsDBO(); 
+		if (builder != null) {
+			return builder.build();
+		}
+
+		CommentsDAO commentsDBO = new CommentsDBO();
 		List<Comment> comments = commentsDBO.getAllComments();
 		Collections.sort(comments);
-		 
-        String htmlString = createHtmlString(comments);
+
+		String htmlString = createHtmlString(comments);
 		return Response.ok(htmlString).lastModified(lastModified).build();
 	}
-	
+
 	@POST
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -58,18 +58,18 @@ public class CommentsController {
 			@Context Request response) throws IOException {
 
 		Comment commentBO = new Comment(name, comment);
-		CommentsDAO commentsDBO = new CommentsDBO(); 
+		CommentsDAO commentsDBO = new CommentsDBO();
 		commentsDBO.insertComment(commentBO);
-		
+
 		lastModified = new Date();
-		
+
 		List<Comment> comments = commentsDBO.getAllComments();
 		Collections.sort(comments);
-		
+
 		String htmlString = createHtmlString(comments);
 		return Response.ok(htmlString).lastModified(lastModified).build();
 	}
-	
+
 	private String createHtmlString(List<Comment> comments) throws IOException {
 		URL url = getClass().getResource("./resources/comments.html");
 		File file = new File(url.getPath());
