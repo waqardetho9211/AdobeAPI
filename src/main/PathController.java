@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,23 +18,23 @@ import main.business.resources.ResourceDAO;
 import main.persistence.ResourceDBO;
 
 @Path("/path")
-public class PathController { 
-	private Resource resource;
-	
-	@GET	
+public class PathController {
+	private List<Resource> resource;
+
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getResource(@QueryParam("path") final String path,  @Context Request request) {
-		
+	public Response getResource(@QueryParam("path") final String path, @Context Request request) {
+
 		ResourceDAO resourceDAO = new ResourceDBO();
-		resource = resourceDAO.getAResourcePath(path);
-		if (resource == null) {
+		resource = resourceDAO.getAllResourcePath(path);
+		if (resource == null || resource.size() == 0) {
 			return Response.noContent().build();
 		}
 		EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
 		ResponseBuilder builder = request.evaluatePreconditions(etag);
-        if (builder != null) {
-            return builder.build();
-        }
-        return Response.ok(resource).tag(etag).build();
+		if (builder != null) {
+			return builder.build();
+		}
+		return Response.ok(resource).tag(etag).build();
 	}
 }
