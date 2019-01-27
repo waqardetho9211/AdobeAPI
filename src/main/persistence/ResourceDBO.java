@@ -48,10 +48,18 @@ public class ResourceDBO implements ResourceDAO {
 		System.out.println("Database Connected");
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
-	public Resource getAResourcePath(String path) {
-		Resource resource = collection.find(eq("path", path)).first();
-		return resource;
+	public List<Resource> getAllResourcePath(String path) {
+		final List<Resource> result = new ArrayList<Resource>();
+		final Block<Resource> resourceBlock = new Block<Resource>() {
+		    @Override
+		    public void apply(final Resource resource) {
+		    	result.add(resource);
+		    }
+		};
+		collection.find(eq("path", path)).forEach(resourceBlock);
+		return result;
 	}
 
 	@Override
