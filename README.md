@@ -21,11 +21,32 @@ The application automatically connects itself to a cloud Mongo database provided
 ## Testing
 The application can be tested using JUnit. All the tests present in test package have only written using JUnit.
 
+## Usage Example 
+Find a resource at a path
+http://localhost:8080/AdobeAPI/rest/path?path=main
+Result: 
+[{"location":"root/user1","name":"index.html","path":"main","type":"File"},{"location":"root/user1","name":"index.html","path":"main","type":"File"},{"location":"root/user1","name":"documents","path":"main","type":"Directory"}]
+
+Find a resource 
+http://localhost:8080/AdobeAPI/rest/resource?name=next_gen.html
+{"location":"root/user6","name":"next_gen.html","path":"main/html","type":"File"}
+
+Find all resources in the system: 
+http://localhost:8080/AdobeAPI/rest/resources
+Output: {multiple json}
+
+Add a resource through UI:
+http://localhost:8080/AdobeAPI/resource.html
+
+Add a new comment on the wall through UI:
+http://localhost:8080/AdobeAPI/
+
+List all posted comments through UI: 
+http://localhost:8080/AdobeAPI/rest/comment
+
 ## References
 Some ideas about the source code have been taken from the following sources: 
 - http://www.vogella.com/tutorials/REST/article.html
 - http://mongodb.github.io/mongo-java-driver/3.6/driver/getting-started/quick-start-pojo/
 - https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html#etagRevalidation
 - https://psamsotha.github.io/jersey/2015/10/18/http-caching-with-jersey.html
-
-
