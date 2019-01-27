@@ -22,12 +22,12 @@ The application automatically connects itself to a cloud Mongo database provided
 The application can be tested using JUnit. All the tests present in test package have only written using JUnit.
 
 ## Usage Example 
-Find a resource at a path
+Find a resource at a path for example path is "main"
 http://localhost:8080/AdobeAPI/rest/path?path=main
 Result: 
 [{"location":"root/user1","name":"index.html","path":"main","type":"File"},{"location":"root/user1","name":"index.html","path":"main","type":"File"},{"location":"root/user1","name":"documents","path":"main","type":"Directory"}]
 
-Find a resource 
+Find a resource example file name = "next_gen.html"
 http://localhost:8080/AdobeAPI/rest/resource?name=next_gen.html
 {"location":"root/user6","name":"next_gen.html","path":"main/html","type":"File"}
 
