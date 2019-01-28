@@ -1,5 +1,10 @@
 package main;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,11 +18,6 @@ import javax.xml.bind.DatatypeConverter;
 
 import main.business.resources.Resource;
 import main.persistence.ResourceDBO;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 @Path("/resources")
 public class ResourcesController {

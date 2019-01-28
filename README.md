@@ -2,7 +2,7 @@
 A simple file exploring and a wall application
 
 ## How To Run
-The app is made using Java and tested using JDK 1.8. One can form a jar file using this source code by using any build tool. In order to make a connection with the Mongo database one needs to make changes in the application.properties in resource package and provide the password of the Mongo DB At the right place.
+The app is made using Java and tested using JDK 1.8. One can form a war file using this source code by using any build tool. In order to make a connection with the Mongo database one needs to make changes in the application.properties in resource package and provide the password of the Mongo DB At the right place.
 
 ## Architecture
 The application is created considering model view controller design pattern in mind. 
@@ -16,7 +16,7 @@ For other versions of Mongo campus:
 mongodb://admin:<PASSWORD>@cluster0-shard-00-00-1ng4z.mongodb.net:27017,cluster0-shard-00-01-1ng4z.mongodb.net:27017,cluster0-shard-00-02-1ng4z.mongodb.net:27017/admin?replicaSet=Cluster0-shard-0&ssl=true
 
 ## Database
-The application automatically connects itself to a cloud Mongo database provided the connection password is replaced with "password" field.
+The application automatically connects itself to a cloud Mongo database provided the connection password is replaced with "password" field. In "application.properties" specifically at "application.uri"
 
 ## Testing
 The application can be tested using JUnit. All the tests present in test package have only written using JUnit.
@@ -24,16 +24,22 @@ The application can be tested using JUnit. All the tests present in test package
 ## Usage Example 
 Find a resource at a path for example path is "main"
 http://localhost:8080/AdobeAPI/rest/path?path=main
-Result: 
+Result:
+```
 [{"location":"root/user1","name":"index.html","path":"main","type":"File"},{"location":"root/user1","name":"index.html","path":"main","type":"File"},{"location":"root/user1","name":"documents","path":"main","type":"Directory"}]
-
+```
 Find a resource example file name = "next_gen.html"
 http://localhost:8080/AdobeAPI/rest/resource?name=next_gen.html
+Result:
+```
 {"location":"root/user6","name":"next_gen.html","path":"main/html","type":"File"}
-
+```
 Find all resources in the system: 
 http://localhost:8080/AdobeAPI/rest/resources
-Output: {multiple json}
+Result:
+```
+{multiple json}
+```
 
 Add a resource through UI:
 http://localhost:8080/AdobeAPI/resource.html

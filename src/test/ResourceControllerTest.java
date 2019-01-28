@@ -1,5 +1,7 @@
 package test;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
@@ -12,8 +14,6 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.junit.After;
