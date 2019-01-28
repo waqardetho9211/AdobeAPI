@@ -10,11 +10,13 @@ The application is created considering model view controller design pattern in m
 The Mongo cloud database has been used. The application will automatically connect itself into the cloud database. However, if one needs to access the database through Mongo client or any utility such as Mongo campus then can use the following URL string.
 
 For Mongo campus 1.12 and later use this connection string:
+```
 mongodb+srv://admin:<PASSWORD>@cluster0-1ng4z.mongodb.net/admin
-
+```
 For other versions of Mongo campus:
+```
 mongodb://admin:<PASSWORD>@cluster0-shard-00-00-1ng4z.mongodb.net:27017,cluster0-shard-00-01-1ng4z.mongodb.net:27017,cluster0-shard-00-02-1ng4z.mongodb.net:27017/admin?replicaSet=Cluster0-shard-0&ssl=true
-
+```
 ## Database
 The application automatically connects itself to a cloud Mongo database provided the connection password is replaced with "password" field. In "application.properties" specifically at "application.uri"
 
