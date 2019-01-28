@@ -50,7 +50,7 @@ public class ResourceDBO implements ResourceDAO {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public List<Resource> getAllResourcePath(String path) {
+	public List<Resource> getAllResourcePath(final String path) {
 		final List<Resource> result = new ArrayList<Resource>();
 		final Block<Resource> resourceBlock = new Block<Resource>() {
 		    @Override
@@ -63,7 +63,7 @@ public class ResourceDBO implements ResourceDAO {
 	}
 
 	@Override
-	public void insertResource(Resource resource) {
+	public void insertResource(final Resource resource) {
 		collection.insertOne(new Resource(resource.getName(), resource.getType(), resource.getPath(), resource.getLocation()));
 	}
 
@@ -82,17 +82,17 @@ public class ResourceDBO implements ResourceDAO {
 	}
 
 	@Override
-	public Resource getAResource(String name) {
-		Resource resource = collection.find(eq("name", name)).first();
+	public Resource getAResource(final String name) {
+		final Resource resource = collection.find(eq("name", name)).first();
 		return resource;
 	}
 	
 	private Properties getApplicationProperties() {
 		// Boilerplate code ToDo create a universal properties loader
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input = classLoader.getResourceAsStream("./main/resources/conf/application.properties");
+		final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		final InputStream input = classLoader.getResourceAsStream("./main/resources/conf/application.properties");
 		// ...
-		Properties properties = new Properties();
+		final Properties properties = new Properties();
 		try {
 			properties.load(input);
 		} catch (IOException e) {

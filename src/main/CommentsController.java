@@ -38,16 +38,16 @@ public class CommentsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Response getComments(@Context Request request) throws IOException {
 
-		ResponseBuilder builder = request.evaluatePreconditions(lastModified);
+		final ResponseBuilder builder = request.evaluatePreconditions(lastModified);
 		if (builder != null) {
 			return builder.build();
 		}
 
-		CommentsDAO commentsDBO = new CommentsDBO();
-		List<Comment> comments = commentsDBO.getAllComments();
+		final CommentsDAO commentsDBO = new CommentsDBO();
+		final List<Comment> comments = commentsDBO.getAllComments();
 		Collections.sort(comments);
 
-		String htmlString = createHtmlString(comments);
+		final String htmlString = createHtmlString(comments);
 		return Response.ok(htmlString).lastModified(lastModified).build();
 	}
 
@@ -57,25 +57,25 @@ public class CommentsController {
 	public Response addAComment(@FormParam("name") String name, @FormParam("comment") String comment,
 			@Context Request response) throws IOException {
 
-		Comment commentBO = new Comment(name, comment);
-		CommentsDAO commentsDBO = new CommentsDBO();
+		final Comment commentBO = new Comment(name, comment);
+		final CommentsDAO commentsDBO = new CommentsDBO();
 		commentsDBO.insertComment(commentBO);
 
 		lastModified = new Date();
 
-		List<Comment> comments = commentsDBO.getAllComments();
+		final List<Comment> comments = commentsDBO.getAllComments();
 		Collections.sort(comments);
 
-		String htmlString = createHtmlString(comments);
+		final String htmlString = createHtmlString(comments);
 		return Response.ok(htmlString).lastModified(lastModified).build();
 	}
 
-	private String createHtmlString(List<Comment> comments) throws IOException {
-		URL url = getClass().getResource("./resources/comments.html");
-		File file = new File(url.getPath());
+	private String createHtmlString(final List<Comment> comments) throws IOException {
+		final URL url = getClass().getResource("./resources/comments.html");
+		final File file = new File(url.getPath());
 		String htmlString = FileUtils.readFileToString(file);
 
-		StringBuilder listBuilder = new StringBuilder();
+		final StringBuilder listBuilder = new StringBuilder();
 
 		for (Comment comment : comments) {
 			listBuilder.append(

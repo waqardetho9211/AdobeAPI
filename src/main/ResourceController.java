@@ -27,14 +27,14 @@ public class ResourceController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getResource(@QueryParam("name") final String name, @Context Request request) {
-		ResourceDAO resourceDAO = new ResourceDBO();
+		final ResourceDAO resourceDAO = new ResourceDBO();
 		resource = resourceDAO.getAResource(name);
 
 		if (resource == null) {
 			return Response.noContent().build();
 		}
-		EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
-		ResponseBuilder builder = request.evaluatePreconditions(etag);
+		final EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
+		final ResponseBuilder builder = request.evaluatePreconditions(etag);
 		if (builder != null) {
 			return builder.build();
 		}
@@ -47,12 +47,12 @@ public class ResourceController {
 			@FormParam("path") String path, @FormParam("location") String location, @Context Request response) {
 
 		// Check condition if a resource already there. Since, method is a post method.
-		Resource resource = new Resource(name, ((type == null) ? ResourceTypes.Unknown : ResourceTypes.valueOf(type)),
+		final Resource resource = new Resource(name, ((type == null) ? ResourceTypes.Unknown : ResourceTypes.valueOf(type)),
 				path, location);
-		ResourceDAO resourceDAO = new ResourceDBO();
+		final ResourceDAO resourceDAO = new ResourceDBO();
 		resourceDAO.insertResource(resource);
 
-		EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
+		final EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
 
 		return Response.ok(resource).tag(etag).build();
 	}

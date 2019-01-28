@@ -15,7 +15,7 @@ public class Comment implements Comparable<Comment>{
 		
 	}
 	
-	public Comment(String user, String comment) {
+	public Comment(final String user, final String comment) {
 		super();
 		this.user = user;
 		this.comment = comment;
@@ -25,19 +25,19 @@ public class Comment implements Comparable<Comment>{
 		return user;
 	}
 	
-	public void setUser(String user) {
+	public void setUser(final String user) {
 		this.user = user;
 	}
 	public String getComment() {
 		return comment;
 	}
-	public void setComment(String comment) {
+	public void setComment(final String comment) {
 		this.comment = comment;
 	} 
 	public LocalDateTime getTimeStamp() {
 		return timeStamp;
 	}
-	public void setTimeStamp(LocalDateTime timeStamp) {
+	public void setTimeStamp(final LocalDateTime timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 	
@@ -50,14 +50,14 @@ public class Comment implements Comparable<Comment>{
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comment other = (Comment) obj;
+		final Comment other = (Comment) obj;
 		if (comment == null) {
 			if (other.comment != null)
 				return false;
@@ -72,7 +72,7 @@ public class Comment implements Comparable<Comment>{
 	}
 
 	@Override
-	public int compareTo(Comment comment) {
+	public int compareTo(final Comment comment) {
 		return getTimeStamp().compareTo(comment.getTimeStamp());
 	}
 	

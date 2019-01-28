@@ -28,15 +28,15 @@ class CommentsControllerTest {
 	@Test
 	void shouldShowSuccessResponseWhenANewComment() {
 
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		final ClientConfig config = new ClientConfig();
+		final Client client = ClientBuilder.newClient(config);
+		final WebTarget target = client.target(getBaseURI());
 
-		Form form = new Form();
+		final Form form = new Form();
 		form.param("name", "Test Person");
 		form.param("comment", "This is a comment on the wall");
 
-		Response response = target.path("rest").path("comment").request()
+		final Response response = target.path("rest").path("comment").request()
 				.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
 		assertEquals(response.getStatus(), 200);
 	}
@@ -44,66 +44,66 @@ class CommentsControllerTest {
 	@Test
 	void shouldReturnComments() {
 
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		final ClientConfig config = new ClientConfig();
+		final Client client = ClientBuilder.newClient(config);
+		final WebTarget target = client.target(getBaseURI());
 		
-		String nameOfTestUser = "Test Person";
-		String commentOfTestUser = "This is a test comment";
+		final String nameOfTestUser = "Test Person";
+		final String commentOfTestUser = "This is a test comment";
 
-		Form form = new Form();
+		final Form form = new Form();
 		form.param("name", nameOfTestUser);
 		form.param("comment", commentOfTestUser);
 
-		Response response = target.path("rest").path("comment").request()
+		final Response response = target.path("rest").path("comment").request()
 				.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
 
-		String htmlString = response.readEntity(String.class);
+		final String htmlString = response.readEntity(String.class);
 		assertThat(htmlString, containsString(nameOfTestUser));
 		assertThat(htmlString, containsString(commentOfTestUser));
 
 	}
 	@Test
 	void shouldGetComments() {
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		final ClientConfig config = new ClientConfig();
+		final Client client = ClientBuilder.newClient(config);
+		final WebTarget target = client.target(getBaseURI());
 		
-		Response response = target.path("rest").path("comment").request()
+		final Response response = target.path("rest").path("comment").request()
 				.get(Response.class);
 
-		String htmlString = response.readEntity(String.class);
+		final String htmlString = response.readEntity(String.class);
 		assertNotEquals( "", htmlString );
 
 	}
 	@Test
 	void shouldGetLastModifiedFromHTTPHeader() {
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		final ClientConfig config = new ClientConfig();
+		final Client client = ClientBuilder.newClient(config);
+		final WebTarget target = client.target(getBaseURI());
 		
-		Response response = target.path("rest").path("comment").request()
+		final Response response = target.path("rest").path("comment").request()
 				.get(Response.class);
 		
-		String lastModified = response.getHeaderString("Last-Modified");
+		final String lastModified = response.getHeaderString("Last-Modified");
 		assertNotEquals(lastModified, "");
 
 	}
 	
 	@Test
 	void LastModifiedShoudBeTheSame() {
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		final ClientConfig config = new ClientConfig();
+		final Client client = ClientBuilder.newClient(config);
+		final WebTarget target = client.target(getBaseURI());
 		
-		Response response1 = target.path("rest").path("comment").request()
+		final Response response1 = target.path("rest").path("comment").request()
 				.get(Response.class);
 		
-		Response response2 = target.path("rest").path("comment").request()
+		final Response response2 = target.path("rest").path("comment").request()
 				.get(Response.class);
 		
-		String lastModified1 = response1.getHeaderString("Last-Modified");
-		String lastModified2 = response2.getHeaderString("Last-Modified");
+		final String lastModified1 = response1.getHeaderString("Last-Modified");
+		final String lastModified2 = response2.getHeaderString("Last-Modified");
 		
 		assertEquals(lastModified1, lastModified2);
 	}
@@ -112,16 +112,16 @@ class CommentsControllerTest {
 	void ShouldReturnResponseAsNotModified() {
 		
 		 // If-Modified-Since
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		final ClientConfig config = new ClientConfig();
+		final Client client = ClientBuilder.newClient(config);
+		final WebTarget target = client.target(getBaseURI());
 		
-		Response response1 = target.path("rest").path("comment").request()
+		final Response response1 = target.path("rest").path("comment").request()
 				.get(Response.class);
 		
-		String lastModified1 = response1.getHeaderString("Last-Modified");
+		final String lastModified1 = response1.getHeaderString("Last-Modified");
 		
-		Response response2 = target.path("rest").path("comment").request().header("if-modified-since",lastModified1)
+		final Response response2 = target.path("rest").path("comment").request().header("if-modified-since",lastModified1)
 				.get(Response.class);
 		assertEquals(response2.getStatus(), 304);
 	}

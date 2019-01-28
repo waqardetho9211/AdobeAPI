@@ -25,15 +25,15 @@ public class ResourcesController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getResources(@Context Request request) throws NoSuchAlgorithmException {
-		ResourceDBO dao = new ResourceDBO();
-		List<Resource> resources = dao.getAllResources();
+		final ResourceDBO dao = new ResourceDBO();
+		final List<Resource> resources = dao.getAllResources();
 
-		MessageDigest digest = MessageDigest.getInstance("MD5");
-		byte[] hash = digest.digest(resources.toString().getBytes(StandardCharsets.UTF_8));
-		String hex = DatatypeConverter.printHexBinary(hash);
-		EntityTag etag = new EntityTag(hex);
+		final MessageDigest digest = MessageDigest.getInstance("MD5");
+		final byte[] hash = digest.digest(resources.toString().getBytes(StandardCharsets.UTF_8));
+		final String hex = DatatypeConverter.printHexBinary(hash);
+		final EntityTag etag = new EntityTag(hex);
 
-		ResponseBuilder builder = request.evaluatePreconditions(etag);
+		final ResponseBuilder builder = request.evaluatePreconditions(etag);
 		if (builder != null) {
 			return builder.build();
 		}

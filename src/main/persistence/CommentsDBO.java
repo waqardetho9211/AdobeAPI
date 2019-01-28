@@ -46,6 +46,7 @@ public class CommentsDBO implements CommentsDAO{
 		System.out.println("Database Connected");
 
 	}
+
 	@Override
 	public void insertComment(final Comment commentBO) {
 		collection.insertOne(new Comment(commentBO.getUser(), commentBO.getComment()));		
@@ -67,10 +68,10 @@ public class CommentsDBO implements CommentsDAO{
 	
 	private Properties getApplicationProperties() {
 		// Boilerplate code ToDo create a universal properties loader
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input = classLoader.getResourceAsStream("./main/resources/conf/application.properties");
+		final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		final InputStream input = classLoader.getResourceAsStream("./main/resources/conf/application.properties");
 		// ...
-		Properties properties = new Properties();
+		final Properties properties = new Properties();
 		try {
 			properties.load(input);
 		} catch (IOException e) {

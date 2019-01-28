@@ -25,13 +25,13 @@ public class PathController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getResource(@QueryParam("path") final String path, @Context Request request) {
 
-		ResourceDAO resourceDAO = new ResourceDBO();
+		final ResourceDAO resourceDAO = new ResourceDBO();
 		resource = resourceDAO.getAllResourcePath(path);
 		if (resource == null || resource.size() == 0) {
 			return Response.noContent().build();
 		}
-		EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
-		ResponseBuilder builder = request.evaluatePreconditions(etag);
+		final EntityTag etag = new EntityTag(Integer.toString(resource.hashCode()));
+		final ResponseBuilder builder = request.evaluatePreconditions(etag);
 		if (builder != null) {
 			return builder.build();
 		}
