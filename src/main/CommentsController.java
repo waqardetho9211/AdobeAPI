@@ -20,6 +20,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import org.apache.commons.io.FileUtils;
 
@@ -71,14 +73,16 @@ public class CommentsController {
 	}
 
 	private String createHtmlString(final List<Comment> comments) throws IOException {
-		final URL url = getClass().getResource("./resources/comments.html");
-		final File file = new File(url.getPath());
-		String htmlString = FileUtils.readFileToString(file);
+		// Code not working in war file
+		// final URL url = getClass().getResource("./resources/comments.html");
+		// final File file = new File(url.getPath());
+		// String htmlString = FileUtils.readFileToString(file);
+		String htmlString = getHTMLFromText();
 
 		final StringBuilder listBuilder = new StringBuilder();
 
 		for (Comment comment : comments) {
-			listBuilder.append(
+			listBuilder.append( 
 					"<li class='list-group-item'> <b>" + comment.getUser() + "</b> says: <i>" + comment.getComment()
 							+ "</i> <p><small>" + comment.getTimeStamp().format(dateTimeFormat) + "</small></p></li>");
 		}
@@ -86,5 +90,33 @@ public class CommentsController {
 
 		return htmlString;
 	}
+
+	private String getHTMLFromText() {
+		return "<!-- html template copied from https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_list_group&stacked=h -->\r\n" + 
+				"<!DOCTYPE html>\r\n" + 
+				"<html lang=\"en\">\r\n" + 
+				"<head>\r\n" + 
+				"<title>Wall Post Anything here</title>\r\n" + 
+				"<meta charset=\"utf-8\">\r\n" + 
+				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n" + 
+				"<link rel=\"stylesheet\"\r\n" + 
+				"	href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css\">\r\n" + 
+				"<script\r\n" + 
+				"	src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\r\n" + 
+				"<script\r\n" + 
+				"	src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js\"></script>\r\n" + 
+				"</head>\r\n" + 
+				"<body>\r\n" + 
+				"\r\n" + 
+				"	<div class=\"container\">\r\n" + 
+				"		<h3>Comments Submitted on the wall</h3>\r\n" + 
+				"		<ul class=\"list-group\">$targetList\r\n" + 
+				"		</ul>\r\n" + 
+				"	</div>\r\n" + 
+				"\r\n" + 
+				"</body>\r\n" + 
+				"</html>";
+	}
+
 
 }
